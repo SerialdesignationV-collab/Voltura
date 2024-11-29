@@ -379,12 +379,59 @@ handleAnimationDetection(firstAnimIdsToStop, ReplacedAnimation)
 local OriginalAnimation = 12342141464
 local ReplacedAnimation = 16734584478
 
-local StartTime = 0 -- Animation start time
-local Speed = 1 -- Animation speed
-local Duration = 8 -- Animation stop time
+local StartTime = 0 -- which time it starts like video
+local Speed = 1 -- animation speed
+local Duration = 999 -- when the animation stops
+local function teleportInStarSuperFast(player, duration)
+    local character = player.Character
+    if character then
+        local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
+        if humanoidRootPart then
+            -- Define the radius of the star shape and the center position
+            local centerPosition = humanoidRootPart.Position
+            local radius = 20  -- Adjust for star size
+            local points = 5  -- Number of points of the star
 
--- Handle animation detection and replacement
-local re = false
+            -- Calculate the angle increment for the points (360° divided by the number of points)
+            local angleIncrement = math.pi * 2 / points
+
+            -- Define positions for the star points
+            local starPoints = {}
+            for i = 0, points - 1 do
+                local angle = i * angleIncrement
+                -- Star vertices are at the radius from the center and alternated between points and inner vertices
+                local outerVertex = centerPosition + Vector3.new(math.cos(angle) * radius, 0, math.sin(angle) * radius)
+                table.insert(starPoints, outerVertex)
+
+                -- For the "inner" points of the star, reduce the radius for the second set of points
+                local innerRadius = radius / 2
+                local innerVertex = centerPosition + Vector3.new(math.cos(angle + angleIncrement / 2) * innerRadius, 0, math.sin(angle + angleIncrement / 2) * innerRadius)
+                table.insert(starPoints, innerVertex)
+            end
+
+            -- Move player between the star points for the duration
+            local timeElapsed = 0
+            local currentPoint = 1
+            local numPoints = #starPoints
+
+            while timeElapsed < duration do
+                -- Teleport player instantly to the next point (no wait)
+                humanoidRootPart.CFrame = CFrame.new(starPoints[currentPoint])
+
+                -- Cycle to the next point
+                currentPoint = currentPoint + 1
+                if currentPoint > numPoints then
+                    currentPoint = 1
+                end
+
+                -- Increment time (we're effectively skipping time here)
+                timeElapsed = timeElapsed + (1 / 60)  -- Assuming 60 FPS, but time elapsed is essentially skipped
+                -- No wait time, teleportation happens instantly
+            end
+        end
+    end
+end
+
 local function handleAnimationDetection(animIdsToStop, replacementAnimId)
     local humanoid = game.Players.LocalPlayer.Character.Humanoid
 
@@ -394,20 +441,16 @@ local function handleAnimationDetection(animIdsToStop, replacementAnimId)
         for _, stopId in ipairs(animIdsToStop) do
             if animId == stopId then
                 animationTrack:Stop()
-                if not re then
-                    re = true
-                    local a = Instance.new("Animation")
-                    a.AnimationId = "rbxassetid://" .. replacementAnimId
-                    local p = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(a)
-                    p:Play()
-                    p.TimePosition = StartTime
-                    p:AdjustSpeed(Speed)
-                    delay(Duration, function()
-                        p:Stop()
-                    end)
-                    p.Stopped:Wait()
-                    re = false
-                end
+                local a = Instance.new("Animation")
+a.AnimationId = "rbxassetid://" .. replacementAnimId
+local p = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(a)
+a.AnimationId = "rbxassetid://0"
+p:Play()
+p.TimePosition = StartTime
+p:AdjustSpeed(Speed)
+delay(Duration, function()
+p:Stop()
+end)
             end
         end
     end
