@@ -1,0 +1,810 @@
+-- go to the way bottom and delete them if you get the link
+
+game.Lighting.ClockTime = 0
+local lighting = game.Lighting
+lighting.Atmosphere.Density = 0.666
+
+-- ignore
+local function callback(Text)
+ if Text == "Button1 text" then
+  print ("Answer")
+elseif Text == ("Button2 text") then
+ print ("Answer2")
+ end
+end
+
+--actual
+
+local NotificationBindable = Instance.new("BindableFunction")
+NotificationBindable.OnInvoke = callback
+--
+game.StarterGui:SetCore("SendNotification",  {
+ Title = "Voltura Script it's Requested"; --the title
+ Text = "YO PHONG LINGING"; --the text
+ Icon = ""; --icon if you want
+ Duration = 10; --for how many seconds it should be there
+ Callback = NotificationBindable;
+})
+
+--change name here and there's ult name
+
+local tool = Instance.new("Tool")
+    tool.Name = "Volted Run"
+
+    tool.Parent = game.Players.LocalPlayer.Backpack
+    tool.RequiresHandle = false
+
+    local moving = false
+    local player = game.Players.LocalPlayer
+    local character = player.Character or player.CharacterAdded:Wait()
+    local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+    local humanoid = character:WaitForChild("Humanoid")
+    local runService = game:GetService("RunService")
+    local movementSpeed = 125 
+
+    local animation = Instance.new("Animation")
+    animation.AnimationId = "rbxassetid://18897115785" 
+    local animator = humanoid:FindFirstChildOfClass("Animator") or humanoid:WaitForChild("Animator")
+    local animationTrack
+
+    local function moveForward()
+        while moving do
+            local forwardDirection = humanoidRootPart.CFrame.LookVector
+            humanoidRootPart.Velocity = forwardDirection * movementSpeed
+            runService.Stepped:Wait()
+        end
+    end
+
+    tool.Equipped:Connect(function()
+        moving = true
+
+        for i, v in character:GetChildren() do
+            if v:IsA("Part") then
+                local Attachment = Instance.new("Attachment")
+                local ParticleEmitter = Instance.new("ParticleEmitter")
+
+
+                Attachment.Parent = v
+                Attachment.Name = "sigmarun"
+
+                ParticleEmitter.Brightness = 5
+                ParticleEmitter.Color = ColorSequence.new({ColorSequenceKeypoint.new(0,Color3.new(0.109804, 1, 0.0117647),0),ColorSequenceKeypoint.new(1,Color3.new(0.0470588, 1, 0.0470588),0)})
+                ParticleEmitter.Drag = 3
+                ParticleEmitter.FlipbookLayout = Enum.ParticleFlipbookLayout.Grid4x4
+                ParticleEmitter.FlipbookMode = Enum.ParticleFlipbookMode.OneShot
+                ParticleEmitter.Lifetime = NumberRange.new(0.5,0.5)
+                ParticleEmitter.LightEmission = -1
+                ParticleEmitter.LockedToPart = true
+                ParticleEmitter.Rate = 2.5
+                ParticleEmitter.Size = NumberSequence.new({NumberSequenceKeypoint.new(0,2,0),NumberSequenceKeypoint.new(1,2,0)})
+                ParticleEmitter.Speed = NumberRange.new(0,0)
+                ParticleEmitter.Texture = [[http://www.roblox.com/asset/?id=14904853757]]
+                ParticleEmitter.Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0,1,0),NumberSequenceKeypoint.new(0.198684,0.491803,0),NumberSequenceKeypoint.new(0.501316,0.513661,0),NumberSequenceKeypoint.new(0.798684,0.497268,0),NumberSequenceKeypoint.new(1,1,0)})
+                ParticleEmitter.ZOffset = -1
+                ParticleEmitter.Parent = Attachment
+            end
+        end
+        animationTrack = animator:LoadAnimation(animation)
+        animationTrack:Play()
+        moveForward()
+    end)
+
+    tool.Unequipped:Connect(function()
+        moving = false
+        for i, v in character:GetDescendants() do
+            if v:IsA("Attachment") and v:FindFirstChild("ParticleEmitter") and v.Name == "sigmarun" then
+                v:Destroy()
+            end
+        end
+        if animationTrack then
+            animationTrack:Stop()
+        end
+    end)
+
+-- made by Uzi
+local MovesetName1 = "Limitless Barrage"
+local MovesetName2 = "Arc Flash"
+local MovesetName3 = "Volt Push"
+local MovesetName4 = "Electric Reversal"
+
+local UltBarName = "Seismic Impact"
+
+-- don't change anything
+local player = game.Players.LocalPlayer
+local playerGui = player.PlayerGui
+local hotbar = playerGui:FindFirstChild("Hotbar")
+local backpack = hotbar:FindFirstChild("Backpack")
+local hotbarFrame = backpack:FindFirstChild("Hotbar")
+local baseButton = hotbarFrame:FindFirstChild("1").Base
+local ToolName = baseButton.ToolName
+
+ToolName.Text = MovesetName1
+
+local player = game.Players.LocalPlayer
+local playerGui = player.PlayerGui
+local hotbar = playerGui:FindFirstChild("Hotbar")
+local backpack = hotbar:FindFirstChild("Backpack")
+local hotbarFrame = backpack:FindFirstChild("Hotbar")
+local baseButton = hotbarFrame:FindFirstChild("2").Base
+local ToolName = baseButton.ToolName
+
+ToolName.Text = MovesetName2
+
+local player = game.Players.LocalPlayer
+local playerGui = player.PlayerGui
+local hotbar = playerGui:FindFirstChild("Hotbar")
+local backpack = hotbar:FindFirstChild("Backpack")
+local hotbarFrame = backpack:FindFirstChild("Hotbar")
+local baseButton = hotbarFrame:FindFirstChild("3").Base
+local ToolName = baseButton.ToolName
+
+ToolName.Text = MovesetName3
+
+local player = game.Players.LocalPlayer
+local playerGui = player.PlayerGui
+local hotbar = playerGui:FindFirstChild("Hotbar")
+local backpack = hotbar:FindFirstChild("Backpack")
+local hotbarFrame = backpack:FindFirstChild("Hotbar")
+local baseButton = hotbarFrame:FindFirstChild("4").Base
+local ToolName = baseButton.ToolName
+
+ToolName.Text = MovesetName4
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+local function findGuiAndSetText()
+    local screenGui = playerGui:FindFirstChild("ScreenGui")
+    if screenGui then
+        local magicHealthFrame = screenGui:FindFirstChild("MagicHealth")
+        if magicHealthFrame then
+            local textLabel = magicHealthFrame:FindFirstChild("TextLabel")
+            if textLabel then
+                textLabel.Text = UltBarName
+            end
+        end
+    end
+end
+
+playerGui.DescendantAdded:Connect(function(descendant)
+    if descendant:IsDescendantOf(playerGui:FindFirstChild("ScreenGui")) then
+        findGuiAndSetText()
+    end
+end)
+
+findGuiAndSetText()
+
+-- moves animation changer
+--move 1
+local OriginalAnimation = 12273188754
+local ReplacedAnimation = 13603396939
+
+local StartTime = 0 -- which time it starts like video
+local Speed = 1 -- animation speed
+local Duration = 999 -- when the animation stops
+local function speedUpBarrageAttack(player, speedMultiplier)
+    local humanoid = player.Character and player.Character:FindFirstChild("Humanoid")
+    if humanoid then
+        local originalWalkSpeed = humanoid.WalkSpeed
+        humanoid.WalkSpeed = originalWalkSpeed * speedMultiplier
+        
+        -- Wait for the duration of the attack (5 seconds)
+        wait(5)
+        
+        -- Reset walk speed after 5 seconds
+        humanoid.WalkSpeed = originalWalkSpeed
+    end
+end
+
+local function handleAnimationDetection(animIdsToStop, replacementAnimId)
+    local humanoid = game.Players.LocalPlayer.Character.Humanoid
+
+    local function onAnimPlayed(animationTrack)
+        local animId = tonumber(string.match(animationTrack.Animation.AnimationId, "%d+"))
+
+        for _, stopId in ipairs(animIdsToStop) do
+            if animId == stopId then
+                animationTrack:Stop()
+                local a = Instance.new("Animation")
+a.AnimationId = "rbxassetid://" .. replacementAnimId
+local p = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(a)
+a.AnimationId = "rbxassetid://0"
+p:Play()
+p.TimePosition = StartTime
+p:AdjustSpeed(Speed)
+delay(Duration, function()
+p:Stop()
+end)
+            end
+        end
+    end
+
+    humanoid.AnimationPlayed:Connect(onAnimPlayed)
+end
+
+-- First set of animations
+local firstAnimIdsToStop = {OriginalAnimation}
+handleAnimationDetection(firstAnimIdsToStop, ReplacedAnimation)
+
+-- move 2
+local OriginalAnimation = 12296113986
+local ReplacedAnimation = 14900168720
+
+local StartTime = 0 -- which time it starts like video
+local Speed = 1 -- animation speed
+local Duration = 999 -- when the animation stops
+local function moveInAirCurve(player, duration)
+    local character = player.Character
+    if character then
+        local humanoid = character:FindFirstChild("Humanoid")
+        local rootPart = character:FindFirstChild("HumanoidRootPart")
+        
+        if humanoid and rootPart then
+            -- Create a BodyVelocity to control the movement in the air
+            local bodyVelocity = Instance.new("BodyVelocity")
+            bodyVelocity.MaxForce = Vector3.new(10000, 10000, 10000)  -- Set a high force to make the movement smooth
+            bodyVelocity.Velocity = Vector3.new(0, 50, 0)  -- Initial upward movement (adjust to your needs)
+            bodyVelocity.Parent = rootPart
+
+            -- Define start, control, and end positions for the curve
+            local startPosition = rootPart.Position
+            local forwardDirection = rootPart.CFrame.LookVector * 20  -- Forward movement in the direction the player is facing
+            local curveHeight = 10  -- Height of the curve (you can adjust this for more curve)
+            local controlPoint = startPosition + forwardDirection / 2 + Vector3.new(0, curveHeight, 0)  -- Control point to create the curve
+            local endPosition = startPosition + forwardDirection  -- End position to go forward
+
+            -- Move the character through the curve
+            local timeElapsed = 0
+            while timeElapsed < duration do
+                local t = timeElapsed / duration
+                -- Use a Bezier curve formula to create the smooth curve
+                local curvePosition = (1 - t)^2 * startPosition + 2 * (1 - t) * t * controlPoint + t^2 * endPosition
+                bodyVelocity.Velocity = (curvePosition - rootPart.Position) / (1 / 60)  -- Adjust velocity for smoothness
+                timeElapsed = timeElapsed + (1 / 60)  -- Increment the time by one frame (60 FPS)
+                wait(1 / 60)  -- Wait for one frame
+            end
+
+            -- Stop the BodyVelocity after the curve is completed
+            bodyVelocity:Destroy()
+        end
+    end
+end
+local function handleAnimationDetection(animIdsToStop, replacementAnimId)
+    local humanoid = game.Players.LocalPlayer.Character.Humanoid
+
+    local function onAnimPlayed(animationTrack)
+        local animId = tonumber(string.match(animationTrack.Animation.AnimationId, "%d+"))
+
+        for _, stopId in ipairs(animIdsToStop) do
+            if animId == stopId then
+                animationTrack:Stop()
+                local a = Instance.new("Animation")
+a.AnimationId = "rbxassetid://" .. replacementAnimId
+local p = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(a)
+a.AnimationId = "rbxassetid://0"
+p:Play()
+p.TimePosition = StartTime
+p:AdjustSpeed(Speed)
+delay(Duration, function()
+p:Stop()
+end)
+            end
+        end
+    end
+
+    humanoid.AnimationPlayed:Connect(onAnimPlayed)
+end
+
+-- First set of animations
+local firstAnimIdsToStop = {OriginalAnimation}
+handleAnimationDetection(firstAnimIdsToStop, ReplacedAnimation)
+
+--move 3
+local OriginalAnimation = 12309835105
+local ReplacedAnimation = 13501296372
+
+local StartTime = 0 -- which time it starts like video
+local Speed = 0.7 -- animation speed
+local Duration = 999 -- when the animation stops
+
+local function handleAnimationDetection(animIdsToStop, replacementAnimId)
+    local humanoid = game.Players.LocalPlayer.Character.Humanoid
+
+    local function onAnimPlayed(animationTrack)
+        local animId = tonumber(string.match(animationTrack.Animation.AnimationId, "%d+"))
+
+        for _, stopId in ipairs(animIdsToStop) do
+            if animId == stopId then
+                animationTrack:Stop()
+                local a = Instance.new("Animation")
+a.AnimationId = "rbxassetid://" .. replacementAnimId
+local p = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(a)
+a.AnimationId = "rbxassetid://0"
+p:Play()
+p.TimePosition = StartTime
+p:AdjustSpeed(Speed)
+delay(Duration, function()
+p:Stop()
+end)
+            end
+        end
+    end
+
+    humanoid.AnimationPlayed:Connect(onAnimPlayed)
+end
+
+-- First set of animations
+local firstAnimIdsToStop = {OriginalAnimation}
+handleAnimationDetection(firstAnimIdsToStop, ReplacedAnimation)
+
+--move 4
+local OriginalAnimation = 13603396939
+local ReplacedAnimation = 13560306510
+
+local StartTime = 0 -- which time it starts like video
+local Speed = 1.8 -- animation speed
+local Duration = 999 -- when the animation stops
+
+local function handleAnimationDetection(animIdsToStop, replacementAnimId)
+    local humanoid = game.Players.LocalPlayer.Character.Humanoid
+
+    local function onAnimPlayed(animationTrack)
+        local animId = tonumber(string.match(animationTrack.Animation.AnimationId, "%d+"))
+
+        for _, stopId in ipairs(animIdsToStop) do
+            if animId == stopId then
+                animationTrack:Stop()
+                local a = Instance.new("Animation")
+a.AnimationId = "rbxassetid://" .. replacementAnimId
+local p = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(a)
+a.AnimationId = "rbxassetid://0"
+p:Play()
+p.TimePosition = StartTime
+p:AdjustSpeed(Speed)
+delay(Duration, function()
+p:Stop()
+end)
+            end
+        end
+    end
+
+    humanoid.AnimationPlayed:Connect(onAnimPlayed)
+end
+
+-- First set of animations
+local firstAnimIdsToStop = {OriginalAnimation}
+handleAnimationDetection(firstAnimIdsToStop, ReplacedAnimation)
+
+-- ult anim
+local OriginalAnimation = 12342141464
+local ReplacedAnimation = 16734584478
+
+local StartTime = 0 -- which time it starts like video
+local Speed = 1 -- animation speed
+local Duration = 999 -- when the animation stops
+local function teleportInStarSuperFast(player, duration)
+    local character = player.Character
+    if character then
+        local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
+        if humanoidRootPart then
+            -- Define the radius of the star shape and the center position
+            local centerPosition = humanoidRootPart.Position
+            local radius = 20  -- Adjust for star size
+            local points = 5  -- Number of points of the star
+
+            -- Calculate the angle increment for the points (360° divided by the number of points)
+            local angleIncrement = math.pi * 2 / points
+
+            -- Define positions for the star points
+            local starPoints = {}
+            for i = 0, points - 1 do
+                local angle = i * angleIncrement
+                -- Star vertices are at the radius from the center and alternated between points and inner vertices
+                local outerVertex = centerPosition + Vector3.new(math.cos(angle) * radius, 0, math.sin(angle) * radius)
+                table.insert(starPoints, outerVertex)
+
+                -- For the "inner" points of the star, reduce the radius for the second set of points
+                local innerRadius = radius / 2
+                local innerVertex = centerPosition + Vector3.new(math.cos(angle + angleIncrement / 2) * innerRadius, 0, math.sin(angle + angleIncrement / 2) * innerRadius)
+                table.insert(starPoints, innerVertex)
+            end
+
+            -- Move player between the star points for the duration
+            local timeElapsed = 0
+            local currentPoint = 1
+            local numPoints = #starPoints
+
+            while timeElapsed < duration do
+                -- Teleport player instantly to the next point (no wait)
+                humanoidRootPart.CFrame = CFrame.new(starPoints[currentPoint])
+
+                -- Cycle to the next point
+                currentPoint = currentPoint + 1
+                if currentPoint > numPoints then
+                    currentPoint = 1
+                end
+
+                -- Increment time (we're effectively skipping time here)
+                timeElapsed = timeElapsed + (1 / 60)  -- Assuming 60 FPS, but time elapsed is essentially skipped
+                -- No wait time, teleportation happens instantly
+            end
+        end
+    end
+end
+
+local function handleAnimationDetection(animIdsToStop, replacementAnimId)
+    local humanoid = game.Players.LocalPlayer.Character.Humanoid
+
+    local function onAnimPlayed(animationTrack)
+        local animId = tonumber(string.match(animationTrack.Animation.AnimationId, "%d+"))
+
+        for _, stopId in ipairs(animIdsToStop) do
+            if animId == stopId then
+                animationTrack:Stop()
+                local a = Instance.new("Animation")
+a.AnimationId = "rbxassetid://" .. replacementAnimId
+local p = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(a)
+a.AnimationId = "rbxassetid://0"
+p:Play()
+p.TimePosition = StartTime
+p:AdjustSpeed(Speed)
+delay(Duration, function()
+p:Stop()
+end)
+            end
+        end
+    end
+
+    humanoid.AnimationPlayed:Connect(onAnimPlayed)
+end
+
+-- First set of animations
+local firstAnimIdsToStop = {OriginalAnimation}
+handleAnimationDetection(firstAnimIdsToStop, ReplacedAnimation)
+
+-- wall combo
+local OriginalAnimation = 16310343179
+local ReplacedAnimation = 15943915877
+
+local StartTime = 0 -- which time it starts like video
+local Speed = 1 -- animation speed
+local Duration = 999 -- when the animation stops
+-- don't change
+local function handleAnimationDetection(animIdsToStop, replacementAnimId)
+    local humanoid = game.Players.LocalPlayer.Character.Humanoid
+
+    local function onAnimPlayed(animationTrack)
+        local animId = tonumber(string.match(animationTrack.Animation.AnimationId, "%d+"))
+
+        for _, stopId in ipairs(animIdsToStop) do
+            if animId == stopId then
+                animationTrack:Stop()
+                local a = Instance.new("Animation")
+a.AnimationId = "rbxassetid://" .. replacementAnimId
+local p = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(a)
+a.AnimationId = "rbxassetid://0"
+p:Play()
+p.TimePosition = StartTime
+p:AdjustSpeed(Speed)
+delay(Duration, function()
+p:Stop()
+end)
+            end
+        end
+    end
+
+    humanoid.AnimationPlayed:Connect(onAnimPlayed)
+end
+
+-- First set of animations
+local firstAnimIdsToStop = {OriginalAnimation}
+handleAnimationDetection(firstAnimIdsToStop, ReplacedAnimation)
+
+-- uppercut
+
+local OriginalAnimation = 10503381238
+local ReplacedAnimation = 18182425133
+
+local StartTime = 0 -- which time it starts like video
+local Speed = 1 -- animation speed
+local Duration = 999 -- when the animation stops
+
+local function handleAnimationDetection(animIdsToStop, replacementAnimId)
+    local humanoid = game.Players.LocalPlayer.Character.Humanoid
+
+    local function onAnimPlayed(animationTrack)
+        local animId = tonumber(string.match(animationTrack.Animation.AnimationId, "%d+"))
+
+        for _, stopId in ipairs(animIdsToStop) do
+            if animId == stopId then
+                animationTrack:Stop()
+                local a = Instance.new("Animation")
+a.AnimationId = "rbxassetid://" .. replacementAnimId
+local p = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(a)
+a.AnimationId = "rbxassetid://0"
+p:Play()
+p.TimePosition = StartTime
+p:AdjustSpeed(Speed)
+delay(Duration, function()
+p:Stop()
+end)
+            end
+        end
+    end
+
+    humanoid.AnimationPlayed:Connect(onAnimPlayed)
+end
+
+-- First set of animations
+local firstAnimIdsToStop = {OriginalAnimation}
+handleAnimationDetection(firstAnimIdsToStop, ReplacedAnimation)
+
+-- downslam
+local OriginalAnimation = 10470104242
+local ReplacedAnimation = 12307656616
+
+local StartTime = 0 -- which time it starts like video
+local Speed = 1 -- animation speed
+local Duration = 999 -- when the animation stops
+
+local function handleAnimationDetection(animIdsToStop, replacementAnimId)
+    local humanoid = game.Players.LocalPlayer.Character.Humanoid
+
+    local function onAnimPlayed(animationTrack)
+        local animId = tonumber(string.match(animationTrack.Animation.AnimationId, "%d+"))
+
+        for _, stopId in ipairs(animIdsToStop) do
+            if animId == stopId then
+                animationTrack:Stop()
+                local a = Instance.new("Animation")
+a.AnimationId = "rbxassetid://" .. replacementAnimId
+local p = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(a)
+a.AnimationId = "rbxassetid://0"
+p:Play()
+p.TimePosition = StartTime
+p:AdjustSpeed(Speed)
+delay(Duration, function()
+p:Stop()
+end)
+            end
+        end
+    end
+
+    humanoid.AnimationPlayed:Connect(onAnimPlayed)
+end
+
+-- First set of animations
+local firstAnimIdsToStop = {OriginalAnimation}
+handleAnimationDetection(firstAnimIdsToStop, ReplacedAnimation)
+
+-- ult move 1
+local OriginalAnimation = your_animationid
+local ReplacedAnimation = your_animationid
+
+local StartTime = 0 -- which time it starts like video
+local Speed = 1 -- animation speed
+local Duration = 8 -- when the animation stops
+
+local function handleAnimationDetection(animIdsToStop, replacementAnimId)
+    local humanoid = game.Players.LocalPlayer.Character.Humanoid
+
+    local function onAnimPlayed(animationTrack)
+        local animId = tonumber(string.match(animationTrack.Animation.AnimationId, "%d+"))
+
+        for _, stopId in ipairs(animIdsToStop) do
+            if animId == stopId then
+                animationTrack:Stop()
+                local a = Instance.new("Animation")
+a.AnimationId = "rbxassetid://" .. replacementAnimId
+local p = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(a)
+a.AnimationId = "rbxassetid://0"
+p:Play()
+p.TimePosition = StartTime
+p:AdjustSpeed(Speed)
+delay(Duration, function()
+p:Stop()
+end)
+            end
+        end
+    end
+
+    humanoid.AnimationPlayed:Connect(onAnimPlayed)
+end
+
+-- First set of animations
+local firstAnimIdsToStop = {OriginalAnimation}
+handleAnimationDetection(firstAnimIdsToStop, ReplacedAnimation)
+
+-- ult move 2
+local OriginalAnimation = your_animationid
+local ReplacedAnimation = your_animationid
+
+local StartTime = 0 -- which time it starts like video
+local Speed = 1 -- animation speed
+local Duration = 8 -- when the animation stops
+
+local function handleAnimationDetection(animIdsToStop, replacementAnimId)
+    local humanoid = game.Players.LocalPlayer.Character.Humanoid
+
+    local function onAnimPlayed(animationTrack)
+        local animId = tonumber(string.match(animationTrack.Animation.AnimationId, "%d+"))
+
+        for _, stopId in ipairs(animIdsToStop) do
+            if animId == stopId then
+                animationTrack:Stop()
+                local a = Instance.new("Animation")
+a.AnimationId = "rbxassetid://" .. replacementAnimId
+local p = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(a)
+a.AnimationId = "rbxassetid://0"
+p:Play()
+p.TimePosition = StartTime
+p:AdjustSpeed(Speed)
+delay(Duration, function()
+p:Stop()
+end)
+            end
+        end
+    end
+
+    humanoid.AnimationPlayed:Connect(onAnimPlayed)
+end
+
+-- First set of animations
+local firstAnimIdsToStop = {OriginalAnimation}
+handleAnimationDetection(firstAnimIdsToStop, ReplacedAnimation)
+
+-- ult move 3
+local OriginalAnimation = your_animationid
+local ReplacedAnimation = your_animationid
+
+local StartTime = 0 -- which time it starts like video
+local Speed = 1 -- animation speed
+local Duration = 8 -- when the animation stops
+
+local function handleAnimationDetection(animIdsToStop, replacementAnimId)
+    local humanoid = game.Players.LocalPlayer.Character.Humanoid
+
+    local function onAnimPlayed(animationTrack)
+        local animId = tonumber(string.match(animationTrack.Animation.AnimationId, "%d+"))
+
+        for _, stopId in ipairs(animIdsToStop) do
+            if animId == stopId then
+                animationTrack:Stop()
+                local a = Instance.new("Animation")
+a.AnimationId = "rbxassetid://" .. replacementAnimId
+local p = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(a)
+a.AnimationId = "rbxassetid://0"
+p:Play()
+p.TimePosition = StartTime
+p:AdjustSpeed(Speed)
+delay(Duration, function()
+p:Stop()
+end)
+            end
+        end
+    end
+
+    humanoid.AnimationPlayed:Connect(onAnimPlayed)
+end
+
+-- First set of animations
+local firstAnimIdsToStop = {OriginalAnimation}
+handleAnimationDetection(firstAnimIdsToStop, ReplacedAnimation)
+
+-- ult move 4
+
+local OriginalAnimation = your_animationid
+local ReplacedAnimation = your_animationid
+
+local StartTime = 0 -- which time it starts like video
+local Speed = 1 -- animation speed
+local Duration = 8 -- when the animation stops
+
+local function handleAnimationDetection(animIdsToStop, replacementAnimId)
+    local humanoid = game.Players.LocalPlayer.Character.Humanoid
+
+    local function onAnimPlayed(animationTrack)
+        local animId = tonumber(string.match(animationTrack.Animation.AnimationId, "%d+"))
+
+        for _, stopId in ipairs(animIdsToStop) do
+            if animId == stopId then
+                animationTrack:Stop()
+                local a = Instance.new("Animation")
+a.AnimationId = "rbxassetid://" .. replacementAnimId
+local p = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(a)
+a.AnimationId = "rbxassetid://0"
+p:Play()
+p.TimePosition = StartTime
+p:AdjustSpeed(Speed)
+delay(Duration, function()
+p:Stop()
+end)
+            end
+        end
+    end
+
+    humanoid.AnimationPlayed:Connect(onAnimPlayed)
+end
+
+-- First set of animations
+local firstAnimIdsToStop = {OriginalAnimation}
+handleAnimationDetection(firstAnimIdsToStop, ReplacedAnimation)
+
+--change m1 anims here
+
+local m1 = 13501296372
+local m2 = 12272894215
+local m3 = 10471336737
+local m4 = 17889458563
+
+local function handleAnimationDetection(animIdsToStop, replacementAnimId)
+    local humanoid = game.Players.LocalPlayer.Character.Humanoid
+
+    local function onAnimPlayed(animationTrack)
+        local animId = tonumber(string.match(animationTrack.Animation.AnimationId, "%d+"))
+
+        for _, stopId in ipairs(animIdsToStop) do
+            if animId == stopId then
+                animationTrack:Stop()
+                local a = Instance.new("Animation")
+a.AnimationId = "rbxassetid://" .. replacementAnimId
+local p = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(a)
+p:Play()
+            end
+        end
+    end
+
+    humanoid.AnimationPlayed:Connect(onAnimPlayed)
+end
+
+-- First set of animations
+local firstAnimIdsToStop = {10469493270, 13532562418, 13491635433, 13370310513, 14004222985, 15259161390, 16515503507, 17889458563}
+handleAnimationDetection(firstAnimIdsToStop, m1)
+
+-- Second set of animations
+local secondAnimIdsToStop = {10469630950, 13532600125, 13296577783, 13390230973, 13997092940, 15240216931, 16515520431, 17889461810}
+handleAnimationDetection(secondAnimIdsToStop, m2)
+
+-- Third set of animations
+local thirdAnimIdsToStop = {10469639222, 13532604085, 13295919399, 13378751717, 14001963401, 15240176873, 16515448089, 17889471098}
+handleAnimationDetection(thirdAnimIdsToStop, m3)
+
+-- Fourth set of animations
+local fourthAnimIdsToStop = {10469643643, 13294471966, 13295936866, 13378708199, 14136436157, 15162694192, 16552234590, 17889290569}
+handleAnimationDetection(fourthAnimIdsToStop, m4)
+
+--messages
+local text = "Rise..."
+
+local chatService=game:GetService("ReplicatedStorage"):WaitForChild("DefaultChatSystemChatEvents")local function sendMessage(text)chatService:WaitForChild("SayMessageRequest"):FireServer(text,"All")end sendMessage(text)
+wait(0.7)
+local text = "And Talk."
+
+local chatService=game:GetService("ReplicatedStorage"):WaitForChild("DefaultChatSystemChatEvents")local function sendMessage(text)chatService:WaitForChild("SayMessageRequest"):FireServer(text,"All")end sendMessage(text)
+wait(0.5)
+local text = "I Shall Give You. Pain."
+
+local chatService=game:GetService("ReplicatedStorage"):WaitForChild("DefaultChatSystemChatEvents")local function sendMessage(text)chatService:WaitForChild("SayMessageRequest"):FireServer(text,"All")end sendMessage(text)
+-- ignore these
+
+wait()
+wait(1)
+wait(2)
+wait(3)
+wait(4)
+wait(5)
+wait(6)
+wait(7)
+wait(8)
+wait(9)
+wait(10)
+wait(11)
+wait(12)
+wait(13)
+wait(14)
+wait(15)
+wait(16)
+wait(17)
+wait(18)
+wait(19)
+wait(20)
